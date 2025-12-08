@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: carlopez <carlopez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 18:26:18 by carlopez          #+#    #+#             */
-/*   Updated: 2025/12/08 19:25:19 by carlopez         ###   ########.fr       */
+/*   Created: 2025/12/08 19:31:31 by carlopez          #+#    #+#             */
+/*   Updated: 2025/12/08 19:54:14 by carlopez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,31 @@ Fixed::Fixed(const Fixed& other)
 {
     *this = other;
     std::cout << "Copy constructor called" << std::endl;
+}
+
+Fixed::Fixed(const int value) : num(value << this->bits)
+{
+    std::cout << "Int constructor called" << std::endl;
+}
+
+Fixed::Fixed(const float value)
+{
+    float newValue;
+    
+    //Same as value * 256
+    newValue = value * (1 << this->bits);
+    this->num = roundf(newValue);
+    std::cout << "Float constructor called" << std::endl;
+}
+
+float Fixed::toFloat(void)
+{
+    return (this->num >> this->bits);
+}
+
+float Fixed::toInt(void)
+{
+    return (this->num >> this->bits);
 }
 
 Fixed& Fixed::operator=(const Fixed& other)
