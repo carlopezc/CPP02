@@ -6,7 +6,7 @@
 /*   By: carlopez <carlopez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 19:31:25 by carlopez          #+#    #+#             */
-/*   Updated: 2025/12/08 19:50:42 by carlopez         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:16:09 by carlopez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ class Fixed
         int getRawBits(void) const;
         void setRawBits(int const raw);
     
-    float toFloat(void);
-    int toInt(void);
+    float toFloat(void) const;
+    int toInt(void) const;
 };
+
+std::ostream& operator<<(std::ostream& output, const Fixed& data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: carlopez <carlopez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 19:31:31 by carlopez          #+#    #+#             */
-/*   Updated: 2025/12/08 19:54:14 by carlopez         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:15:44 by carlopez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ Fixed::Fixed(const float value)
     std::cout << "Float constructor called" << std::endl;
 }
 
-float Fixed::toFloat(void)
+float Fixed::toFloat(void) const
 {
-    return (this->num >> this->bits);
+    //Hacemos cast de uno de los numeros para que la division no sea entre ints y no desaparezcan los decimales en caso de que haya
+    return ((float)this->num / (1 << this->bits));
 }
 
-float Fixed::toInt(void)
+int Fixed::toInt(void) const
 {
     return (this->num >> this->bits);
 }
@@ -71,4 +72,10 @@ void Fixed::setRawBits(int const raw)
 {
     std::cout << "setRawBits member function called" << std::endl;
     this->num = raw;
+}
+
+std::ostream& operator<<(std::ostream& output, const Fixed& data)
+{
+    output << data.toFloat();
+    return (output);
 }
