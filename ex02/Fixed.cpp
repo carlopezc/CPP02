@@ -6,7 +6,7 @@
 /*   By: carlopez <carlopez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 19:31:31 by carlopez          #+#    #+#             */
-/*   Updated: 2025/12/09 18:15:44 by carlopez         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:23:33 by carlopez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,120 @@ std::ostream& operator<<(std::ostream& output, const Fixed& data)
 {
     output << data.toFloat();
     return (output);
+}
+
+bool Fixed::operator>(const Fixed &other) const
+{
+    return (this->num > other.num);
+}
+
+bool Fixed::operator<(const Fixed &other) const
+{
+    return (this->num < other.num);
+}
+
+bool Fixed::operator>=(const Fixed &other) const
+{
+    return (this->num >= other.num);
+}
+
+bool Fixed::operator<=(const Fixed &other) const
+{
+    return (this->num <= other.num);
+}
+
+bool Fixed::operator!=(const Fixed &other) const
+{
+    return (this->num != other.num);
+}
+
+Fixed Fixed::operator+(const Fixed &other) const
+{
+    Fixed fixed;
+
+    fixed.setRawBits(this->getRawBits() + other.getRawBits());
+    return (fixed);   
+}
+
+Fixed Fixed::operator-(const Fixed &other) const
+{
+    Fixed fixed;
+    
+    fixed.setRawBits(this->getRawBits() - other.getRawBits());
+    return (fixed);
+}
+
+Fixed Fixed::operator*(const Fixed &other) const
+{
+    Fixed fixed;
+    long long temp = (long long)this->getRawBits() * (long long)other.getRawBits();
+    fixed.setRawBits(temp >> 8);
+    return (fixed);
+}
+
+Fixed Fixed::operator/(const Fixed &other) const
+{
+    Fixed fixed;
+    long long temp = (long long)this->getRawBits() << 8;
+    if (other.getRawBits() != 0)
+        fixed.setRawBits(temp / other.getRawBits());
+    return (fixed);
+}
+
+Fixed& Fixed::operator++(void)
+{
+    this->num = this->num + 1;
+    return (*this);
+}
+
+Fixed Fixed::operator++(int)
+{
+    Fixed aux;
+
+    aux = *this;
+    this->num = this->num + 1;
+    return (aux);
+}
+
+Fixed& Fixed::operator--(void)
+{
+    this->num = this->num - 1;
+    return (*this);
+}
+
+Fixed Fixed::operator--(int)
+{
+    Fixed aux;
+
+    aux = *this;
+    this->num = this->num - 1;
+    return (aux);
+}
+
+Fixed& Fixed::min(Fixed &a, Fixed &b)
+{
+    if (a < b)
+        return (a);
+    return (b);
+}
+
+const Fixed& Fixed::min(const Fixed &a, const Fixed &b)
+{
+    if (a < b)
+        return (a);
+    return (b);
+}
+
+Fixed& Fixed::max(Fixed &a, Fixed &b)
+{
+    if (a > b)
+        return (a);
+    return (b);
+}
+
+const Fixed& Fixed::max(const Fixed &a, const Fixed &b)
+{
+    if (a > b)
+        return (a);
+    return (b);
 }
