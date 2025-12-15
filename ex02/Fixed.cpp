@@ -6,13 +6,13 @@
 /*   By: carlopez <carlopez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 19:31:31 by carlopez          #+#    #+#             */
-/*   Updated: 2025/12/11 13:23:33 by carlopez         ###   ########.fr       */
+/*   Updated: 2025/12/15 17:33:49 by carlopez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 
-Fixed::Fixed() : num(0)
+Fixed::Fixed() : _num(0)
 {
     std::cout << "Default constructor called" << std::endl;
 }
@@ -24,11 +24,11 @@ Fixed::~Fixed()
 
 Fixed::Fixed(const Fixed& other)
 {
-    *this = other;
     std::cout << "Copy constructor called" << std::endl;
+    *this = other;
 }
 
-Fixed::Fixed(const int value) : num(value << this->bits)
+Fixed::Fixed(const int value) : _num(value << this->_bits)
 {
     std::cout << "Int constructor called" << std::endl;
 }
@@ -36,42 +36,38 @@ Fixed::Fixed(const int value) : num(value << this->bits)
 Fixed::Fixed(const float value)
 {
     float newValue;
-    
-    //Same as value * 256
-    newValue = value * (1 << this->bits);
-    this->num = roundf(newValue);
+
+    newValue = value * (1 << this->_bits);
+    this->_num = roundf(newValue);
     std::cout << "Float constructor called" << std::endl;
 }
 
 float Fixed::toFloat(void) const
 {
-    //Hacemos cast de uno de los numeros para que la division no sea entre ints y no desaparezcan los decimales en caso de que haya
-    return ((float)this->num / (1 << this->bits));
+    return (static_cast<float>(this->_num) / (1 << this->_bits));
 }
 
 int Fixed::toInt(void) const
 {
-    return (this->num >> this->bits);
+    return (this->_num >> this->_bits);
 }
 
 Fixed& Fixed::operator=(const Fixed& other)
 {
-    if (this != &other)
-        this->num = other.getRawBits();
     std::cout << "Copy assignment operator called" << std::endl;
+    if (this != &other)
+        this->_num = other.getRawBits();
     return (*this);
 }
 
 int Fixed::getRawBits(void) const
 {
-    std::cout << "getRawBits member function called" << std::endl;
-    return (this->num);
+    return (this->_num);
 }
 
 void Fixed::setRawBits(int const raw)
 {
-    std::cout << "setRawBits member function called" << std::endl;
-    this->num = raw;
+    this->_num = raw;
 }
 
 std::ostream& operator<<(std::ostream& output, const Fixed& data)
@@ -82,27 +78,32 @@ std::ostream& operator<<(std::ostream& output, const Fixed& data)
 
 bool Fixed::operator>(const Fixed &other) const
 {
-    return (this->num > other.num);
+    return (this->_num > other._num);
 }
 
 bool Fixed::operator<(const Fixed &other) const
 {
-    return (this->num < other.num);
+    return (this->_num < other._num);
 }
 
 bool Fixed::operator>=(const Fixed &other) const
 {
-    return (this->num >= other.num);
+    return (this->_num >= other._num);
 }
 
 bool Fixed::operator<=(const Fixed &other) const
 {
-    return (this->num <= other.num);
+    return (this->_num <= other._num);
 }
 
 bool Fixed::operator!=(const Fixed &other) const
 {
-    return (this->num != other.num);
+    return (this->_num != other._num);
+}
+
+bool Fixed::operator==(const Fixed &other) const
+{
+    return (this->_num == other._num);
 }
 
 Fixed Fixed::operator+(const Fixed &other) const
@@ -140,7 +141,7 @@ Fixed Fixed::operator/(const Fixed &other) const
 
 Fixed& Fixed::operator++(void)
 {
-    this->num = this->num + 1;
+    this->_num = this->_num + 1;
     return (*this);
 }
 
@@ -149,13 +150,13 @@ Fixed Fixed::operator++(int)
     Fixed aux;
 
     aux = *this;
-    this->num = this->num + 1;
+    this->_num = this->_num + 1;
     return (aux);
 }
 
 Fixed& Fixed::operator--(void)
 {
-    this->num = this->num - 1;
+    this->_num = this->_num - 1;
     return (*this);
 }
 
@@ -164,7 +165,7 @@ Fixed Fixed::operator--(int)
     Fixed aux;
 
     aux = *this;
-    this->num = this->num - 1;
+    this->_num = this->_num - 1;
     return (aux);
 }
 
