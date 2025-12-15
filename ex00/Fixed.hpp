@@ -6,7 +6,7 @@
 /*   By: carlopez <carlopez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:26:13 by carlopez          #+#    #+#             */
-/*   Updated: 2025/12/08 18:54:55 by carlopez         ###   ########.fr       */
+/*   Updated: 2025/12/15 15:10:45 by carlopez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 class Fixed
 {
     private:
-        int num;
-        static const int bits = 8;
+        int _num;
+        static const int _bits = 8;
         
     public:
         Fixed();
